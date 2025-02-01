@@ -301,7 +301,7 @@ class CalculatorGUI
         when 'Square Numbers'
             square_numbers(start_val, end_val)
         end
-        @display.text = result.join(', ')
+        save_and_display(result.to_s)
     end
 
     def generate_sequence_to_n(type, n)
@@ -311,7 +311,7 @@ class CalculatorGUI
         when 'Fibonacci Numbers'
             fibonacci(n)
         end
-        @display.text = result.join(', ')
+        save_and_display(result.to_s)
     end
 
     def generate_from_list(type, numbers)
@@ -327,7 +327,17 @@ class CalculatorGUI
         when 'Maximum'
             max(numbers)
         end
-        @display.text = result.to_s
+        @display.text = result.join(', ')
+    end
+
+    # Helper method to display and write results
+    def save_and_display(result)
+        result_text = result.is_a?(Array) ? result.join(', ') : result.to_s
+        @display.text = result_text
+
+        File.open("results.txt", "a") do |file|
+            file.puts(result_text)
+        end
     end
 
 public
