@@ -5,7 +5,7 @@ Ava
     Category 2, #1-6
     Category 3, #1
 Mercey
-    Catefory 2, #7-12
+    Category 2, #7-12
 Ryan
     Category 3, #1
 Yoyi
