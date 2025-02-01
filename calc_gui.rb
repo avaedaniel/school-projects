@@ -1,6 +1,29 @@
 #calc_gui.rb
 require 'gtk3'
-
+require_relative 'cosine'
+require_relative 'cubic_root'
+require_relative 'deci_to_bi'
+require_relative 'deci_to_hex'
+require_relative 'deci_to_oct'
+require_relative 'even_numbers'
+require_relative 'exponential'
+require_relative 'factorial'
+require_relative 'fibonacci'
+require_relative 'Generate_odd'
+require_relative 'Generate_Prime'
+require_relative 'logarithm'
+require_relative 'max'
+require_relative 'mean'
+require_relative 'Median'
+require_relative 'Mode'
+require_relative 'percentage'
+require_relative 'Prime'
+require_relative 'sine'
+require_relative 'square_numbers'
+require_relative 'square_root'
+require_relative 'tangent'
+require_relative 'tempConvert'
+ 
 class CalculatorGUI
     def initialize
         @builder = Gtk::Builder.new
@@ -41,7 +64,8 @@ class CalculatorGUI
             ['7', '8', '9', '/'],
             ['4', '5', '6', '*'],
             ['1', '2', '3', '-'],
-            ['0', '.', '=', '+']
+            ['0', '.', '=', '+'],
+            ['Clear', '(', ')','Delete']
         ]
 
         buttons.each_with_index do |row, i|
@@ -189,9 +213,13 @@ class CalculatorGUI
             rescue
                 @display.text = 'Error'
             end 
-        else
+        when 'Clear'
+            @display.text = ''  # Clear the display
+        when 'Delete'
+            @display.text = @display.text.chop
+        else    
             @display.text = @display.text + value
-        end 
+        end
     end
 
     def scientific_clicked(operation)
@@ -267,93 +295,49 @@ class CalculatorGUI
     def generate_range_numbers(type, start_val, end_val)
         case type
         when 'Even Numbers'
-            show_save_dialog("even_numbers.txt") do |filename|
-                require_relative 'even_numbers'
-                generate_even_numbers(start_val, end_val, filename)
-                # Read the generated file to display in calculator
-                numbers = File.read(filename).split("\n").map(&:to_i)
-                @display.text = numbers.join(', ')
-            end
+            even_numbers(start_val, end_val)
         when 'Odd Numbers'
-            show_save_dialog("oddList.txt") do |filename|
-                require_relative 'generate_odd'
-                generate_odds(start_val, end_val, filename)
-                # Read the generated file to display in calculator
-                numbers = File.read(filename).split(",").map(&:strip).map(&:to_i)
-                @display.text = numbers.join(', ')
-            end
+            Generate_odd(start_val, end_val)
         when 'Square Numbers'
-            require_relative 'squares'
-            numbers = (start_val..end_val).map { |n| n * n }
-            @display.text = numbers.join(', ')
+            square_numbers(start_val, end_val)
         end
-    end
-    
-    private
-    
-    def show_save_dialog(default_filename)
-        dialog = Gtk::FileChooserDialog.new(
-            title: "Save Numbers",
-            parent: @window,
-            action: :save,
-            buttons: [
-                ["Cancel", :cancel],
-                ["Save", :accept]
-            ]
-        )
-        
-        dialog.current_name = default_filename
-        
-        if dialog.run == :accept
-            filename = dialog.filename
-            yield(filename) if block_given?
-        end
-        dialog.destroy
+        save_and_display(result.to_s)
     end
 
     def generate_sequence_to_n(type, n)
         result = case type
         when 'Prime Numbers'
-            primes_up_to(n)
+            Generate_Prime(n)
         when 'Fibonacci Numbers'
-            fibonacci_up_to(n)
+            fibonacci(n)
         end
-        @display.text = result.join(', ')
+        save_and_display(result.to_s)
     end
 
     def generate_from_list(type, numbers)
         result = case type
         when 'Median'
-            sorted = numbers.sort
-            len = sorted.length
-            len.odd? ? sorted[len/2] : (sorted[len/2-1] + sorted[len/2]) / 2.0
+            Median(numbers)
         when 'Minimum'
-            numbers.min
+            Minimum(numbers)
         when 'Mode'
-            numbers.group_by(&:itself).max_by { |_, v| v.size }[0]
+            mode(numbers)
         when 'Mean'
-            numbers.sum.to_f / numbers.length
+            mean(numbers)
         when 'Maximum'
-            numbers.max
+            max(numbers)
         end
-        @display.text = result.to_s
+        @display.text = result.join(', ')
     end
 
-    def primes_up_to(n)
-        primes = []
-        (2..n).each do |num|
-            primes << num if (2..Math.sqrt(num)).none? { |i| num % i == 0 }
-        end
-        primes
-    end
+    # Helper method to display and write results
+    def save_and_display(result)
+        result_text = result.is_a?(Array) ? result.join(', ') : result.to_s
+        @display.text = result_text
 
-    def fibonacci_up_to(n)
-        sequence = [1, 1]
-        while sequence.last < n
-            sequence << sequence[-1] + sequence[-2]
+        File.open("results.txt", "a") do |file|
+            file.puts(result_text)
         end
-        sequence.pop if sequence.last > n
-        sequence
     end
 
 public
