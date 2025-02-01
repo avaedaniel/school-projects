@@ -265,15 +265,50 @@ class CalculatorGUI
     end
 
     def generate_range_numbers(type, start_val, end_val)
-        result = case type
+        case type
         when 'Even Numbers'
-            (start_val..end_val).select(&:even?)
+            show_save_dialog("even_numbers.txt") do |filename|
+                require_relative 'even_numbers'
+                generate_even_numbers(start_val, end_val, filename)
+                # Read the generated file to display in calculator
+                numbers = File.read(filename).split("\n").map(&:to_i)
+                @display.text = numbers.join(', ')
+            end
         when 'Odd Numbers'
-            (start_val..end_val).select(&:odd?)
+            show_save_dialog("oddList.txt") do |filename|
+                require_relative 'generate_odd'
+                generate_odds(start_val, end_val, filename)
+                # Read the generated file to display in calculator
+                numbers = File.read(filename).split(",").map(&:strip).map(&:to_i)
+                @display.text = numbers.join(', ')
+            end
         when 'Square Numbers'
-            (start_val..end_val).map { |n| n * n }
+            require_relative 'squares'
+            numbers = (start_val..end_val).map { |n| n * n }
+            @display.text = numbers.join(', ')
         end
-        @display.text = result.join(', ')
+    end
+    
+    private
+    
+    def show_save_dialog(default_filename)
+        dialog = Gtk::FileChooserDialog.new(
+            title: "Save Numbers",
+            parent: @window,
+            action: :save,
+            buttons: [
+                ["Cancel", :cancel],
+                ["Save", :accept]
+            ]
+        )
+        
+        dialog.current_name = default_filename
+        
+        if dialog.run == :accept
+            filename = dialog.filename
+            yield(filename) if block_given?
+        end
+        dialog.destroy
     end
 
     def generate_sequence_to_n(type, n)
