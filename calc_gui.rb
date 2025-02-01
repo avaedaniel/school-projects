@@ -1,6 +1,29 @@
 #calc_gui.rb
 require 'gtk3'
-
+require_relative 'cosine'
+require_relative 'cubic_root'
+require_relative 'deci_to_bi'
+require_relative 'deci_to_hex'
+require_relative 'deci_to_oct'
+require_relative 'even_numbers'
+require_relative 'exponential'
+require_relative 'factorial'
+require_relative 'fibonacci'
+require_relative 'Generate_odd'
+require_relative 'Generate_Prime'
+require_relative 'logarithm'
+require_relative 'max'
+require_relative 'mean'
+require_relative 'Median'
+require_relative 'Mode'
+require_relative 'percentage'
+require_relative 'Prime'
+require_relative 'sine'
+require_relative 'square_numbers'
+require_relative 'square_root'
+require_relative 'tangent'
+require_relative 'tempConvert'
+ 
 class CalculatorGUI
     def initialize
         @builder = Gtk::Builder.new
@@ -41,7 +64,8 @@ class CalculatorGUI
             ['7', '8', '9', '/'],
             ['4', '5', '6', '*'],
             ['1', '2', '3', '-'],
-            ['0', '.', '=', '+']
+            ['0', '.', '=', '+'],
+            ['Clear', '(', ')','Delete']
         ]
 
         buttons.each_with_index do |row, i|
@@ -189,9 +213,13 @@ class CalculatorGUI
             rescue
                 @display.text = 'Error'
             end 
-        else
+        when 'Clear'
+            @display.text = ''  # Clear the display
+        when 'Delete'
+            @display.text = @display.text.chop
+        else    
             @display.text = @display.text + value
-        end 
+        end
     end
 
     def scientific_clicked(operation)
@@ -267,11 +295,11 @@ class CalculatorGUI
     def generate_range_numbers(type, start_val, end_val)
         result = case type
         when 'Even Numbers'
-            (start_val..end_val).select(&:even?)
+            even_numbers(start_val, end_val)
         when 'Odd Numbers'
-            (start_val..end_val).select(&:odd?)
+            Generate_odd(start_val, end_val)
         when 'Square Numbers'
-            (start_val..end_val).map { |n| n * n }
+            square_numbers(start_val, end_val)
         end
         @display.text = result.join(', ')
     end
@@ -279,9 +307,9 @@ class CalculatorGUI
     def generate_sequence_to_n(type, n)
         result = case type
         when 'Prime Numbers'
-            primes_up_to(n)
+            Generate_Prime(n)
         when 'Fibonacci Numbers'
-            fibonacci_up_to(n)
+            fibonacci(n)
         end
         @display.text = result.join(', ')
     end
@@ -289,36 +317,17 @@ class CalculatorGUI
     def generate_from_list(type, numbers)
         result = case type
         when 'Median'
-            sorted = numbers.sort
-            len = sorted.length
-            len.odd? ? sorted[len/2] : (sorted[len/2-1] + sorted[len/2]) / 2.0
+            Median(numbers)
         when 'Minimum'
-            numbers.min
+            Minimum(numbers)
         when 'Mode'
-            numbers.group_by(&:itself).max_by { |_, v| v.size }[0]
+            mode(numbers)
         when 'Mean'
-            numbers.sum.to_f / numbers.length
+            mean(numbers)
         when 'Maximum'
-            numbers.max
+            max(numbers)
         end
         @display.text = result.to_s
-    end
-
-    def primes_up_to(n)
-        primes = []
-        (2..n).each do |num|
-            primes << num if (2..Math.sqrt(num)).none? { |i| num % i == 0 }
-        end
-        primes
-    end
-
-    def fibonacci_up_to(n)
-        sequence = [1, 1]
-        while sequence.last < n
-            sequence << sequence[-1] + sequence[-2]
-        end
-        sequence.pop if sequence.last > n
-        sequence
     end
 
 public
