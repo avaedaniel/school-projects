@@ -1,6 +1,6 @@
 #8. Generate all prime numbers less than a given number and save them to a file.
 
-require_relative 'Prime.rb'
+require_relative 'is_prime.rb'
 
 def generate_primes(limit)
   prime =[]

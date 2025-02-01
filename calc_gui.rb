@@ -15,6 +15,7 @@ require_relative 'logarithm'
 require_relative 'max'
 require_relative 'mean'
 require_relative 'median'
+require_relative 'minimum'
 require_relative 'mode'
 require_relative 'percentage'
 require_relative 'is_prime'
@@ -191,16 +192,21 @@ class CalculatorGUI
         label_widget = Gtk::Label.new(label)
         numbers_entry = Gtk::Entry.new
         generate_button = Gtk::Button.new(label: "Generate")
-
+        result_display = Gtk::Entry.new  # New display area for result
+        result_display.editable = false   # Make it read-only
+        result_display.placeholder_text = "Result will appear here"
+    
         row_box.pack_start(label_widget, expand: false, fill: true, padding: 5)
         row_box.pack_start(numbers_entry, expand: true, fill: true, padding: 5)
         row_box.pack_start(generate_button, expand: false, fill: true, padding: 5)
-
+        row_box.pack_start(result_display, expand: true, fill: true, padding: 5)  # Add result display
+    
         numbers_entry.placeholder_text = "Enter numbers separated by commas"
-
+    
         generate_button.signal_connect("clicked") do
             numbers = numbers_entry.text.split(',').map(&:strip).map(&:to_i)
-            generate_from_list(label, numbers)
+            result = generate_from_list(label, numbers)
+            result_display.text = result.to_s  # Show result in the new display area
         end
     end
 
@@ -293,17 +299,28 @@ class CalculatorGUI
     end
 
     def generate_range_numbers(type, start_val, end_val)
-        case type
-        when 'Even Numbers'
-            even_numbers(start_val, end_val)
-            numbers = File.read('even_nums.txt').split("\n")
-            @display.text = numbers.join(', ')
-        when 'Odd Numbers'
-            generate_odd(start_val, end_val)
-        when 'Square Numbers'
-            square_numbers(start_val, end_val)
+        begin
+            case type
+            when 'Even Numbers'
+                result = even_numbers(start_val, end_val)  
+                numbers = File.read('even_nums.txt').split("\n")
+                @display.text = numbers.join(', ')
+            when 'Odd Numbers'
+                generate_odds(start_val, end_val)  
+                # Read back from the fixed filename
+                numbers = File.read('odd_nums.txt').split(",").map(&:strip)
+                @display.text = numbers.join(', ')
+            when 'Square Numbers'
+                square_numbers(start_val, end_val)  
+                # Read back from the fixed filename
+                numbers = File.read('squares.txt').split(",").map(&:strip)
+                @display.text = numbers.join(', ')
+            end
+        rescue LoadError => e
+            @display.text = "Error: Could not find required file (#{e.message})"
+        rescue StandardError => e
+            @display.text = "Error: #{e.message}"
         end
-        save_and_display(result.to_s)
     end
 
     def generate_sequence_to_n(type, n)
@@ -329,7 +346,6 @@ class CalculatorGUI
         when 'Maximum'
             max(numbers)
         end
-        @display.text = result.join(', ')
     end
 
     # Helper method to display and write results
