@@ -9,15 +9,15 @@ require_relative 'even_numbers'
 require_relative 'exponential'
 require_relative 'factorial'
 require_relative 'fibonacci'
-require_relative 'Generate_odd'
-require_relative 'Generate_Prime'
+require_relative 'generate_odd'
+require_relative 'generate_prime'
 require_relative 'logarithm'
 require_relative 'max'
 require_relative 'mean'
-require_relative 'Median'
-require_relative 'Mode'
+require_relative 'median'
+require_relative 'mode'
 require_relative 'percentage'
-require_relative 'Prime'
+require_relative 'is_prime'
 require_relative 'sine'
 require_relative 'square_numbers'
 require_relative 'square_root'
@@ -296,8 +296,10 @@ class CalculatorGUI
         case type
         when 'Even Numbers'
             even_numbers(start_val, end_val)
+            numbers = File.read('even_nums.txt').split("\n")
+            @display.text = numbers.join(', ')
         when 'Odd Numbers'
-            Generate_odd(start_val, end_val)
+            generate_odd(start_val, end_val)
         when 'Square Numbers'
             square_numbers(start_val, end_val)
         end
@@ -307,7 +309,7 @@ class CalculatorGUI
     def generate_sequence_to_n(type, n)
         result = case type
         when 'Prime Numbers'
-            Generate_Prime(n)
+            generate_prime(n)
         when 'Fibonacci Numbers'
             fibonacci(n)
         end
@@ -317,9 +319,9 @@ class CalculatorGUI
     def generate_from_list(type, numbers)
         result = case type
         when 'Median'
-            Median(numbers)
+            median(numbers)
         when 'Minimum'
-            Minimum(numbers)
+            minimum(numbers)
         when 'Mode'
             mode(numbers)
         when 'Mean'

@@ -9,4 +9,3 @@ def generate_odds (start_range, end_range)
   File.write(filename, odds.join(", "))
 end
 
-#generate_odds(0, 50,"oddList.txt")

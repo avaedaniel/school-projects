@@ -2,12 +2,14 @@
 
 require_relative 'Prime.rb'
 
-def generate_primes(limit, filename)
+def generate_primes(limit)
   prime =[]
   (2...limit).each do |num|
     prime <<num if is_prime(num)
 end
+
+  filename = 'primes.txt'
   File.write(filename,prime.join(","))
 end
 
-#generate_primes(20,"primeList.txt")
+
