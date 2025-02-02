@@ -1,6 +1,6 @@
 #author: Yoyi Liao
 
-# Generate Fibonacci numbers up to a given limit and save them to a file.
+# Generate Fibonacci numbers up to a given limit and save them to a file (fibonacci.txt).
 def fibonacci(limit)
     fib_sequence = [0, 1]
 
