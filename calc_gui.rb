@@ -6,7 +6,7 @@ require_relative 'deci_to_bi'
 require_relative 'deci_to_hex'
 require_relative 'deci_to_oct'
 require_relative 'even_numbers'
-require_relative 'exponential'
+require_relative 'exponent'
 require_relative 'factorial'
 require_relative 'fibonacci'
 require_relative 'generate_odd'
@@ -23,7 +23,7 @@ require_relative 'sine'
 require_relative 'square_numbers'
 require_relative 'square_root'
 require_relative 'tangent'
-require_relative 'tempConvert'
+require_relative 'fahrenheit_to_celsius'
  
 class CalculatorGUI
     def initialize
@@ -122,13 +122,13 @@ class CalculatorGUI
             'Odd Numbers',
             'Square Numbers'
         ]
-
+    
         # Generators that need a single number (1 to n)
         single_number_generators = [
             'Prime Numbers',
             'Fibonacci Numbers'
         ]
-
+    
         # Generators that need comma-separated numbers
         list_generators = [
             'Median',
@@ -137,28 +137,56 @@ class CalculatorGUI
             'Mean',
             'Maximum'
         ]
-
-        # Create range-based generators
+    
+        # Add Temperature Converter section
+        temp_label = Gtk::Label.new
+        temp_label.set_markup("<b>Temperature Converter</b>")
+        gen_box.pack_start(temp_label, expand: false, fill: true, padding: 5)
+    
+        temp_box = Gtk::Box.new(:horizontal, 5)
+        temp_label = Gtk::Label.new("Fahrenheit to Celsius:")
+        temp_entry = Gtk::Entry.new
+        convert_button = Gtk::Button.new(label: "Convert")
+        result_display = Gtk::Entry.new
+        result_display.editable = false
+        result_display.placeholder_text = "Result will appear here"
+    
+        temp_box.pack_start(temp_label, expand: false, fill: true, padding: 5)
+        temp_box.pack_start(temp_entry, expand: false, fill: true, padding: 5)
+        temp_box.pack_start(convert_button, expand: false, fill: true, padding: 5)
+        temp_box.pack_start(result_display, expand: true, fill: true, padding: 5)
+    
+        convert_button.signal_connect("clicked") do
+            begin
+                fahrenheit = temp_entry.text.to_f
+                celsius = fahrenheit_to_celsius(fahrenheit)
+                result_display.text = "#{celsius.round(2)}°C"
+            rescue => e
+                result_display.text = "Error: Invalid input"
+            end
+        end
+    
+        gen_box.pack_start(temp_box, expand: false, fill: true, padding: 5)
+    
+        # Create other generators...
         range_generators.each do |label|
             row_box = Gtk::Box.new(:horizontal, 5)
             create_range_input(row_box, label)
             gen_box.pack_start(row_box, expand: false, fill: true, padding: 5)
         end
-
-        # Create single-number generators
+    
         single_number_generators.each do |label|
             row_box = Gtk::Box.new(:horizontal, 5)
             create_single_number_input(row_box, label)
             gen_box.pack_start(row_box, expand: false, fill: true, padding: 5)
         end
-
-        # Create list-based generators
+    
         list_generators.each do |label|
             row_box = Gtk::Box.new(:horizontal, 5)
             create_list_input(row_box, label)
             gen_box.pack_start(row_box, expand: false, fill: true, padding: 5)
         end
-
+    
         @notebook.append_page(gen_box, Gtk::Label.new("Generators"))
     end
 
@@ -261,35 +289,41 @@ class CalculatorGUI
     def scientific_clicked(operation)
         case operation
         when 'log(base, a)'
-            # Show dialog for base and value input
             dialog = Gtk::Dialog.new(
                 title: "Logarithm Input",
                 parent: @window,
                 flags: :modal,
                 buttons: [["Cancel", :cancel], ["OK", :ok]]
             )
- 
+        
             box = dialog.content_area
             base_label = Gtk::Label.new("Base:")
             base_entry = Gtk::Entry.new
             value_label = Gtk::Label.new("Value:")
             value_entry = Gtk::Entry.new
- 
+        
             box.add(base_label)
             box.add(base_entry)
             box.add(value_label)
             box.add(value_entry)
             dialog.show_all
- 
-            dialog.run do |response|
-                if response == :ok
+        
+            response = dialog.run
+            if response == :ok
+                begin
                     base = base_entry.text.to_f
                     value = value_entry.text.to_f
-                    result = Math.log(value, base) rescue 'Error'
-                    @display.text = result.to_s
+                    if base > 0 && value > 0  # Check preconditions
+                        result = logarithm(base, value)
+                        @display.text = result.to_s
+                    else
+                        @display.text = "Error: Base and value must be > 0"
+                    end
+                rescue => e
+                    @display.text = "Error: Invalid input"
                 end
-                dialog.destroy
             end
+            dialog.destroy 
         when 'percentage(a,b)'
             dialog = Gtk::Dialog.new(
                 title: "Percentage Calculator",
@@ -297,33 +331,35 @@ class CalculatorGUI
                 flags: :modal,
                 buttons: [["Cancel", :cancel], ["OK", :ok]]
             )
- 
+        
             box = dialog.content_area
             a_label = Gtk::Label.new("Enter value (a):")
             a_entry = Gtk::Entry.new
             b_label = Gtk::Label.new("Enter total value (b):")
             b_entry = Gtk::Entry.new
- 
+        
             box.add(a_label)
             box.add(a_entry)
             box.add(b_label)
             box.add(b_entry)
             dialog.show_all
- 
-            dialog.run do |response|
-                if response == :ok
+        
+            response = dialog.run
+            if response == :ok
+                begin
                     a = a_entry.text.to_f
                     b = b_entry.text.to_f
-                    begin
-                        result = (a / b * 100).round(2)
+                    if b != 0  # Check for division by zero
+                        result = percentage(a, b)  # Use the imported percentage function
                         @display.text = "#{result}%"
-                    rescue
-                        @display.text = 'Error'
+                    else
+                        @display.text = "Error: Cannot divide by zero"
                     end
+                rescue => e
+                    @display.text = "Error: Invalid input"
                 end
-                dialog.destroy
             end
-            
+            dialog.destroy
         when '√'
             value = @display.text.to_f
             result = square_root(value)
@@ -335,29 +371,45 @@ class CalculatorGUI
             @display.text = result.to_s
     
         when 'x^y'
-            value = @display.text.to_f
             dialog = Gtk::Dialog.new(
                 title: "Exponent Input",
                 parent: @window,
                 flags: :modal,
                 buttons: [["Cancel", :cancel], ["OK", :ok]]
             )
-    
+        
             box = dialog.content_area
-            exp_label = Gtk::Label.new("Enter exponent:")
+            base_label = Gtk::Label.new("Enter base:")
+            base_entry = Gtk::Entry.new
+            exp_label = Gtk::Label.new("Enter exponent:")  
             exp_entry = Gtk::Entry.new
+        
+            box.add(base_label)
+            box.add(base_entry)
             box.add(exp_label)
-            box.add(exp_entry)
+            box.add(exp_entry) 
             dialog.show_all
-    
-            dialog.run do |response|
-                if response == :ok
-                    exponent = exp_entry.text.to_f
-                    result = exponential(value, exponent)
-                    @display.text = result.to_s
+        
+            response = dialog.run
+            if response == :ok
+                begin
+                    base = base_entry.text.to_f
+                    exponent = exp_entry.text.to_i  # Changed back to to_i
+                    puts "Base: #{base}, Exponent: #{exponent}"  # Debug output
+                    begin
+                        result = exponent(base, exponent)
+                        puts "Result: #{result}"  # Debug output
+                        @display.text = result.to_s
+                    rescue => e
+                        puts "Error in exponent function: #{e.message}"  # Debug output
+                        @display.text = "Error: Calculation error"
+                    end
+                rescue => e
+                    puts "Error converting inputs: #{e.message}"  # Debug output
+                    @display.text = "Error: Invalid input"
                 end
-                dialog.destroy
             end
+            dialog.destroy
     
         when 'sin'
             value = @display.text.to_f
