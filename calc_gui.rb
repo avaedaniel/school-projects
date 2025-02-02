@@ -77,6 +77,7 @@ class CalculatorGUI
             ['Clear', '(', ')', 'Delete']
         ]
 
+        # Connecting click signal to buttons
         buttons.each_with_index do |row, i|
             row.each_with_index do |label, j|
                 button = Gtk::Button.new(label: label)
@@ -104,6 +105,7 @@ class CalculatorGUI
             ['percentage(a,b)', '', '', '']
         ]
 
+        # Connecting click signal to buttons
         scientific_buttons.each_with_index do |row, i|
             row.each_with_index do |label, j|
                 next if label.empty?
@@ -113,6 +115,7 @@ class CalculatorGUI
             end
         end
 
+        # Multi-tab interface implementation
         basic_box.pack_start(scientific_grid, expand: true, fill: true, padding: 5)
         @notebook.append_page(basic_box, Gtk::Label.new("Calculator"))
     end
@@ -148,6 +151,7 @@ class CalculatorGUI
         temp_label.set_markup("<b>Temperature Converter</b>")
         gen_box.pack_start(temp_label, expand: false, fill: true, padding: 5)
     
+        # Formating the temp conversion section
         temp_box = Gtk::Box.new(:horizontal, 5)
         temp_label = Gtk::Label.new("Fahrenheit to Celsius:")
         temp_entry = Gtk::Entry.new
@@ -161,6 +165,7 @@ class CalculatorGUI
         temp_box.pack_start(convert_button, expand: false, fill: true, padding: 5)
         temp_box.pack_start(result_display, expand: true, fill: true, padding: 5)
     
+        # Connecting click signal to generate result
         convert_button.signal_connect("clicked") do
             begin
                 fahrenheit = temp_entry.text.to_f
@@ -173,7 +178,7 @@ class CalculatorGUI
     
         gen_box.pack_start(temp_box, expand: false, fill: true, padding: 5)
     
-
+        # Formatting the different input's for various generators
         range_generators.each do |label|
             row_box = Gtk::Box.new(:horizontal, 5)
             create_range_input(row_box, label)
@@ -201,36 +206,42 @@ class CalculatorGUI
         end_entry = Gtk::Entry.new
         generate_button = Gtk::Button.new(label: "Generate")
 
+        # Adding widgets with spacing and layout specifiers
         row_box.pack_start(label_widget, expand: false, fill: true, padding: 5)
         row_box.pack_start(start_entry, expand: false, fill: true, padding: 5)
         row_box.pack_start(Gtk::Label.new("to"), expand: false, fill: true, padding: 5)
         row_box.pack_start(end_entry, expand: false, fill: true, padding: 5)
         row_box.pack_start(generate_button, expand: false, fill: true, padding: 5)
 
+        # Connecting click signal to generate range of numbers 
         generate_button.signal_connect("clicked") do
             generate_range_numbers(label, start_entry.text.to_i, end_entry.text.to_i)
         end
     end
 
+    # Creates an input field for a single number
     def create_single_number_input(row_box, label)
         label_widget = Gtk::Label.new(label)
         number_entry = Gtk::Entry.new
         generate_button = Gtk::Button.new(label: "Generate")
     
+        # Adding widgets with spacing and layout specifiers
         row_box.pack_start(label_widget, expand: false, fill: true, padding: 5)
         row_box.pack_start(number_entry, expand: false, fill: true, padding: 5)
         row_box.pack_start(generate_button, expand: false, fill: true, padding: 5)
-    
+            
+        # Connecting click signal to generate sequence up to a given number
         generate_button.signal_connect("clicked") do
             generate_sequence_to_n(label, number_entry.text.to_i)
         end
     end
     
+    # Generates a sequence based on the selected type
     def generate_sequence_to_n(type, n)
         begin
             case type
             when 'Prime Numbers'
-                generate_primes(n)  # Get the numbers back
+                generate_primes(n)  # Calls the generate primes file
                 if File.exist?('primes.txt')
                     numbers = File.read('primes.txt')
                     @display.text = numbers.split("\n").join(", ")
@@ -239,18 +250,16 @@ class CalculatorGUI
                 end
     
             when 'Fibonacci Numbers'
-                sequence = fibonacci(n)  
+                sequence = fibonacci(n)   # Calls the fibonacci file
                 if File.exist?('fibonacci.txt')
                     content = File.read('fibonacci.txt')
                     @display.text = content
                 end
             end
-        rescue StandardError => e
-            puts "Error: #{e.message}" # Debug output
-            @display.text = "Error: #{e.message}"
         end
     end
 
+    # Creates an input field for a list of numbers
     def create_list_input(row_box, label)
         label_widget = Gtk::Label.new(label)
         numbers_entry = Gtk::Entry.new
@@ -259,13 +268,16 @@ class CalculatorGUI
         result_display.editable = false   # Make it read-only
         result_display.placeholder_text = "Result will appear here"
     
+        # Adding widgets with spacing and layout specifiers
         row_box.pack_start(label_widget, expand: false, fill: true, padding: 5)
         row_box.pack_start(numbers_entry, expand: true, fill: true, padding: 5)
         row_box.pack_start(generate_button, expand: false, fill: true, padding: 5)
         row_box.pack_start(result_display, expand: true, fill: true, padding: 5)  # Add result display
     
+        # Instruction for calculator user
         numbers_entry.placeholder_text = "Enter numbers separated by commas"
     
+        # Connecting click signal to generate file
         generate_button.signal_connect("clicked") do
             numbers = numbers_entry.text.split(',').map(&:strip).map(&:to_i)
             result = generate_from_list(label, numbers)
@@ -273,9 +285,10 @@ class CalculatorGUI
         end
     end
 
+
     def button_clicked(value)
         case value 
-        when '=' 
+        when '='    # Connects the '=' button with signal to show result
             begin
                 result = eval(@display.text)
                 @display.text = result.to_s
@@ -284,7 +297,7 @@ class CalculatorGUI
             end 
         when 'Clear'
             @display.text = ''  # Clear the display
-        when 'Delete'
+        when 'Delete'   # Deletes the last entry 
             @display.text = @display.text.chop
         else    
             @display.text = @display.text + value
@@ -293,6 +306,8 @@ class CalculatorGUI
 
     def scientific_clicked(operation)
         case operation
+
+        # Opens a pop-up window to enter base and value
         when 'log(base, a)'
             dialog = Gtk::Dialog.new(
                 title: "Logarithm Input",
@@ -301,6 +316,7 @@ class CalculatorGUI
                 buttons: [["Cancel", :cancel], ["OK", :ok]]
             )
         
+            # Formatting the pop-up 
             box = dialog.content_area
             base_label = Gtk::Label.new("Base:")
             base_entry = Gtk::Entry.new
@@ -314,12 +330,13 @@ class CalculatorGUI
             dialog.show_all
         
             response = dialog.run
+            # Check for proper inputs in pop-up
             if response == :ok
                 begin
                     base = base_entry.text.to_f
                     value = value_entry.text.to_f
                     if base > 0 && value > 0  # Check preconditions
-                        result = logarithm(base, value)
+                        result = logarithm(base, value)     # Calls log file to compute
                         @display.text = result.to_s
                     else
                         @display.text = "Error: Base and value must be > 0"
@@ -329,6 +346,8 @@ class CalculatorGUI
                 end
             end
             dialog.destroy 
+
+        # Opens pop up window to enter two values
         when 'percentage(a,b)'
             dialog = Gtk::Dialog.new(
                 title: "Percentage Calculator",
@@ -337,6 +356,7 @@ class CalculatorGUI
                 buttons: [["Cancel", :cancel], ["OK", :ok]]
             )
         
+            # Formatting the pop-up 
             box = dialog.content_area
             a_label = Gtk::Label.new("Enter value (a):")
             a_entry = Gtk::Entry.new
@@ -350,6 +370,7 @@ class CalculatorGUI
             dialog.show_all
         
             response = dialog.run
+            # Check for proper inputs in pop-up
             if response == :ok
                 begin
                     a = a_entry.text.to_f
@@ -365,16 +386,20 @@ class CalculatorGUI
                 end
             end
             dialog.destroy
+
+        # Computes square root by calling file
         when '√'
             value = @display.text.to_f
             result = square_root(value)
             @display.text = result.to_s
     
+        # Computes cube root by calling file
         when '∛'
             value = @display.text.to_f
             result = cubic_root(value)
             @display.text = result.to_s
     
+        # Opens pop up window to enter value and exponent value
         when 'x^y'
             dialog = Gtk::Dialog.new(
                 title: "Exponent Input",
@@ -383,6 +408,7 @@ class CalculatorGUI
                 buttons: [["Cancel", :cancel], ["OK", :ok]]
             )
         
+            # Formatting the pop-up 
             box = dialog.content_area
             base_label = Gtk::Label.new("Enter base:")
             base_entry = Gtk::Entry.new
@@ -396,6 +422,7 @@ class CalculatorGUI
             dialog.show_all
         
             response = dialog.run
+            # Check for proper inputs in pop-up
             if response == :ok
                 begin
                     base = base_entry.text.to_f
@@ -416,40 +443,48 @@ class CalculatorGUI
             end
             dialog.destroy
     
+        # Computes sin val by calling file when clicked
         when 'sin'
             value = @display.text.to_f
             result = sine(value)
             @display.text = result.to_s
-    
+
+        # Computes cos val by calling file when clicked
         when 'cos'
             value = @display.text.to_f
             result = cosine(value)
             @display.text = result.to_s
     
+        # Computes tan val by calling file when clicked
         when 'tan'
             value = @display.text.to_f
             result = tangent(value)
             @display.text = result.to_s
     
+        # Computes absolute val by calling file when clicked
         when '|x|'
             value = @display.text.to_f
             @display.text = value.abs.to_s
     
+        # Converts decimal val to binary when clicked
         when 'bin'
             value = @display.text.to_i
             result = deci_to_bi(value)
             @display.text = result.to_s
     
+        # Converts decimal val to oct when clicked
         when 'oct'
             value = @display.text.to_i
             result = deci_to_oct(value)
             @display.text = result.to_s
     
+        # Converts decimal val to hex when clicked
         when 'hex'
             value = @display.text.to_i
             result = deci_to_hex(value)
             @display.text = result.to_s
     
+        # Computes factorial of entered value when clicked
         when 'n!'
             value = @display.text.to_i
             result = factorial(value)
@@ -457,9 +492,11 @@ class CalculatorGUI
         end
     end
 
+    # 
     def generate_range_numbers(type, start_val, end_val)
         begin
             case type
+            # Generates list of even numbers in user provided range
             when 'Even Numbers'
                 sequence = even_numbers(start_val, end_val)  # This writes to even_nums.txt
                 # Make sure the file exists before trying to read it
@@ -471,6 +508,7 @@ class CalculatorGUI
                         @display.text = sequence.join(', ')
                     end
                 end
+            # Generates list of odd numbers in user provided range
             when 'Odd Numbers'
                 sequence = generate_odd(start_val, end_val)  # This writes to odd_nums.txt
                 unless sequence.nil?
@@ -481,6 +519,7 @@ class CalculatorGUI
                         @display.text = sequence.join(', ')
                     end
                 end
+            # Generates list of square numbers in user provided range
             when 'Square Numbers'
                 sequence = square_numbers(start_val, end_val)  # This writes to squares.txt
                 unless sequence.nil?
@@ -495,6 +534,7 @@ class CalculatorGUI
         end
     end
 
+    # Case that calls mean, median, etc... when prompted by click
     def generate_from_list(type, numbers)
         result = case type
         when 'Median'
@@ -507,16 +547,6 @@ class CalculatorGUI
             mean(numbers)
         when 'Maximum'
             max(numbers)
-        end
-    end
-
-    # Helper method to display and write results
-    def save_and_display(result)
-        result_text = result.is_a?(Array) ? result.join(', ') : result.to_s
-        @display.text = result_text
-
-        File.open("results.txt", "a") do |file|
-            file.puts(result_text)
         end
     end
 
