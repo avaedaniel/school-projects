@@ -3,13 +3,15 @@
 require_relative 'is_prime.rb'
 
 def generate_primes(limit)
-  prime =[]
+  prime = []
   (2...limit).each do |num|
-    prime <<num if is_prime(num)
+      prime << num if is_prime(num)
+  end
+  
+  File.open('primes.txt', 'w') do |f|
+      prime.each { |num| f.puts num }
+  end
+  
+  prime
 end
-
-  filename = 'primes.txt'
-  File.write(filename,prime.join(","))
-end
-
 

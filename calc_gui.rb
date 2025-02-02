@@ -10,7 +10,7 @@ require_relative 'exponential'
 require_relative 'factorial'
 require_relative 'fibonacci'
 require_relative 'generate_odd'
-require_relative 'generate_prime'
+require_relative 'generate_primes'
 require_relative 'logarithm'
 require_relative 'max'
 require_relative 'mean'
@@ -178,13 +178,38 @@ class CalculatorGUI
         label_widget = Gtk::Label.new(label)
         number_entry = Gtk::Entry.new
         generate_button = Gtk::Button.new(label: "Generate")
-
+    
         row_box.pack_start(label_widget, expand: false, fill: true, padding: 5)
         row_box.pack_start(number_entry, expand: false, fill: true, padding: 5)
         row_box.pack_start(generate_button, expand: false, fill: true, padding: 5)
-
+    
         generate_button.signal_connect("clicked") do
             generate_sequence_to_n(label, number_entry.text.to_i)
+        end
+    end
+    
+    def generate_sequence_to_n(type, n)
+        begin
+            case type
+            when 'Prime Numbers'
+                generate_primes(n)  # Get the numbers back
+                if File.exist?('primes.txt')
+                    numbers = File.read('primes.txt')
+                    @display.text = numbers.split("\n").join(", ")
+                else
+                    @display.text = numbers.join(", ")  # Use returned array as backup
+                end
+    
+            when 'Fibonacci Numbers'
+                sequence = fibonacci(n)  
+                if File.exist?('fibonacci.txt')
+                    content = File.read('fibonacci.txt')
+                    @display.text = content
+                end
+            end
+        rescue StandardError => e
+            puts "Error: #{e.message}" # Debug output
+            @display.text = "Error: #{e.message}"
         end
     end
 
@@ -302,37 +327,49 @@ class CalculatorGUI
         begin
             case type
             when 'Even Numbers'
-                result = even_numbers(start_val, end_val)  
-                numbers = File.read('even_nums.txt').split("\n")
-                @display.text = numbers.join(', ')
+                require_relative 'even_numbers'
+                sequence = even_numbers(start_val, end_val)  # This writes to even_nums.txt
+                # Make sure the file exists before trying to read it
+                unless sequence.nil?
+                    if File.exist?('even_nums.txt')
+                        numbers = File.read('even_nums.txt')
+                        @display.text = numbers
+                    else
+                        @display.text = sequence.join(', ')
+                    end
+                end
             when 'Odd Numbers'
-                generate_odds(start_val, end_val)  
-                # Read back from the fixed filename
-                numbers = File.read('odd_nums.txt').split(",").map(&:strip)
-                @display.text = numbers.join(', ')
+                require_relative 'generate_odd'
+                sequence = generate_odds(start_val, end_val)  # This writes to odd_nums.txt
+                unless sequence.nil?
+                    if File.exist?('odd_nums.txt')
+                        numbers = File.read('odd_nums.txt')
+                        @display.text = numbers
+                    else
+                        @display.text = sequence.join(', ')
+                    end
+                end
             when 'Square Numbers'
-                square_numbers(start_val, end_val)  
-                # Read back from the fixed filename
-                numbers = File.read('squares.txt').split(",").map(&:strip)
-                @display.text = numbers.join(', ')
+                require_relative 'square_numbers'
+                sequence = square_numbers(start_val, end_val)  # This writes to squares.txt
+                unless sequence.nil?
+                    if File.exist?('squares.txt')
+                        numbers = File.read('squares.txt')
+                        @display.text = numbers
+                    else
+                        @display.text = sequence.join(', ')
+                    end
+                end
             end
         rescue LoadError => e
+            puts "Load Error: #{e.message}"  # Debug output
             @display.text = "Error: Could not find required file (#{e.message})"
         rescue StandardError => e
+            puts "Standard Error: #{e.message}"  # Debug output
             @display.text = "Error: #{e.message}"
         end
     end
-
-    def generate_sequence_to_n(type, n)
-        result = case type
-        when 'Prime Numbers'
-            generate_prime(n)
-        when 'Fibonacci Numbers'
-            fibonacci(n)
-        end
-        save_and_display(result.to_s)
-    end
-
+    
     def generate_from_list(type, numbers)
         result = case type
         when 'Median'
