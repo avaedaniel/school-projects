@@ -13,6 +13,11 @@ Yoyi
     Category 2, #13-16
     
 HOW TO USE CALCULATOR:
+    download user interface package (gtk3):
+        check if gtk3 is already installed by running 'gem list | grep gtk3'
+        if nothing appears, install gtk3 by running 'gem install gtk3'
+        if admin rights are needed, run 'sudo gem install gtk3'
+
     type in terminal 'ruby calc_gui.rb' to launch the calulator environment
     perform basic arithmetic operations within the default 'Basic' calculator page
     perform scientific operation within the 'Scientific' calculator page
