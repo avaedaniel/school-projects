@@ -44,7 +44,6 @@ class CalculatorGUI
         
         # Create tabs
         create_basic_tab
-        create_scientific_tab 
         create_generator_tab
        
         @window.show_all
@@ -56,42 +55,47 @@ class CalculatorGUI
         basic_box = Gtk::Box.new(:vertical, 5)
         basic_box.pack_start(@display, expand: false, fill: true, padding: 5)
         
-        # Create grid for buttons
-        grid = Gtk::Grid.new
-        grid.row_spacing = 5
-        grid.column_spacing = 5
+        # Create grid for basic buttons
+        basic_grid = Gtk::Grid.new
+        basic_grid.row_spacing = 5
+        basic_grid.column_spacing = 5
+
+        # Add a label for the basic section
+        basic_label = Gtk::Label.new
+        basic_label.set_markup("<b>Basic Operations</b>")  # Bold text
+        basic_box.pack_start(basic_label, expand: false, fill: true, padding: 5)
 
         buttons = [
             ['7', '8', '9', '/'],
             ['4', '5', '6', '*'],
             ['1', '2', '3', '-'],
             ['0', '.', '=', '+'],
-            ['Clear', '(', ')','Delete']
+            ['Clear', '(', ')', 'Delete']
         ]
 
         buttons.each_with_index do |row, i|
             row.each_with_index do |label, j|
                 button = Gtk::Button.new(label: label)
                 button.signal_connect("clicked") { button_clicked(label) } 
-                grid.attach(button, j, i, 1, 1)
+                basic_grid.attach(button, j, i, 1, 1)
             end
         end
 
-        basic_box.pack_start(grid, expand: true, fill: true, padding: 5)
-        @notebook.append_page(basic_box, Gtk::Label.new("Basic"))
-    end
+        basic_box.pack_start(basic_grid, expand: true, fill: true, padding: 5)
 
-    def create_scientific_tab
-        sci_box = Gtk::Box.new(:vertical, 5)
+        # Add scientific section
+        scientific_label = Gtk::Label.new
+        scientific_label.set_markup("<b>Scientific Operations</b>")  # Bold text
+        basic_box.pack_start(scientific_label, expand: false, fill: true, padding: 5)
 
-        grid = Gtk::Grid.new
-        grid.row_spacing = 5
-        grid.column_spacing = 5
+        scientific_grid = Gtk::Grid.new
+        scientific_grid.row_spacing = 5
+        scientific_grid.column_spacing = 5
 
         scientific_buttons = [
             ['√', '∛', 'log(base, a)', 'x^y'],
             ['sin', 'cos', 'tan', '|x|'],
-            ['bin', 'oct' , 'hex' , 'n!'],
+            ['bin', 'oct', 'hex', 'n!'],
             ['percentage(a,b)', '', '', '']
         ]
 
@@ -100,13 +104,14 @@ class CalculatorGUI
                 next if label.empty?
                 button = Gtk::Button.new(label: label)
                 button.signal_connect("clicked") { scientific_clicked(label) } 
-                grid.attach(button, j, i, 1, 1)
+                scientific_grid.attach(button, j, i, 1, 1)
             end
         end
-    
-        sci_box.pack_start(grid, expand: true, fill: true, padding: 5)
-        @notebook.append_page(sci_box, Gtk::Label.new("Scientific"))
+
+        basic_box.pack_start(scientific_grid, expand: true, fill: true, padding: 5)
+        @notebook.append_page(basic_box, Gtk::Label.new("Calculator"))
     end
+
         
     def create_generator_tab
         gen_box = Gtk::Box.new(:vertical, 5)
@@ -318,8 +323,80 @@ class CalculatorGUI
                 end
                 dialog.destroy
             end
-        else
-            @display.text = "#{operation}(#{@display.text})"
+            
+        when '√'
+            value = @display.text.to_f
+            result = square_root(value)
+            @display.text = result.to_s
+    
+        when '∛'
+            value = @display.text.to_f
+            result = cubic_root(value)
+            @display.text = result.to_s
+    
+        when 'x^y'
+            value = @display.text.to_f
+            dialog = Gtk::Dialog.new(
+                title: "Exponent Input",
+                parent: @window,
+                flags: :modal,
+                buttons: [["Cancel", :cancel], ["OK", :ok]]
+            )
+    
+            box = dialog.content_area
+            exp_label = Gtk::Label.new("Enter exponent:")
+            exp_entry = Gtk::Entry.new
+            box.add(exp_label)
+            box.add(exp_entry)
+            dialog.show_all
+    
+            dialog.run do |response|
+                if response == :ok
+                    exponent = exp_entry.text.to_f
+                    result = exponential(value, exponent)
+                    @display.text = result.to_s
+                end
+                dialog.destroy
+            end
+    
+        when 'sin'
+            value = @display.text.to_f
+            result = sine(value)
+            @display.text = result.to_s
+    
+        when 'cos'
+            value = @display.text.to_f
+            result = cosine(value)
+            @display.text = result.to_s
+    
+        when 'tan'
+            value = @display.text.to_f
+            result = tangent(value)
+            @display.text = result.to_s
+    
+        when '|x|'
+            value = @display.text.to_f
+            @display.text = value.abs.to_s
+    
+        when 'bin'
+            value = @display.text.to_i
+            result = deci_to_bi(value)
+            @display.text = result.to_s
+    
+        when 'oct'
+            value = @display.text.to_i
+            result = deci_to_oct(value)
+            @display.text = result.to_s
+    
+        when 'hex'
+            value = @display.text.to_i
+            result = deci_to_hex(value)
+            @display.text = result.to_s
+    
+        when 'n!'
+            value = @display.text.to_i
+            result = factorial(value)
+            @display.text = result.to_s
         end
     end
 
@@ -327,7 +404,6 @@ class CalculatorGUI
         begin
             case type
             when 'Even Numbers'
-                require_relative 'even_numbers'
                 sequence = even_numbers(start_val, end_val)  # This writes to even_nums.txt
                 # Make sure the file exists before trying to read it
                 unless sequence.nil?
@@ -339,8 +415,7 @@ class CalculatorGUI
                     end
                 end
             when 'Odd Numbers'
-                require_relative 'generate_odd'
-                sequence = generate_odds(start_val, end_val)  # This writes to odd_nums.txt
+                sequence = generate_odd(start_val, end_val)  # This writes to odd_nums.txt
                 unless sequence.nil?
                     if File.exist?('odd_nums.txt')
                         numbers = File.read('odd_nums.txt')
@@ -350,7 +425,6 @@ class CalculatorGUI
                     end
                 end
             when 'Square Numbers'
-                require_relative 'square_numbers'
                 sequence = square_numbers(start_val, end_val)  # This writes to squares.txt
                 unless sequence.nil?
                     if File.exist?('squares.txt')
@@ -361,15 +435,9 @@ class CalculatorGUI
                     end
                 end
             end
-        rescue LoadError => e
-            puts "Load Error: #{e.message}"  # Debug output
-            @display.text = "Error: Could not find required file (#{e.message})"
-        rescue StandardError => e
-            puts "Standard Error: #{e.message}"  # Debug output
-            @display.text = "Error: #{e.message}"
         end
     end
-    
+
     def generate_from_list(type, numbers)
         result = case type
         when 'Median'

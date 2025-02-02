@@ -1,13 +1,13 @@
 # 2. Generate even numbers within a range and save them to a file
-  def generate_even_numbers(start_range, end_range)
-    even_numbers = []
+  def even_numbers(start_range, end_range)
+    even_numbs = []
     (start_range..end_range).each do |num|
-      even_numbers << num if num % 2 == 0 # Check if the number is even
+      even_numbs << num if num % 2 == 0 # Check if the number is even
     end
 
     file = 'even_nums.txt'
 
-    File.open(file, "w") { |file| file.puts(even_numbers.join("\n")) }
+    File.open(file, "w") { |file| file.puts(even_numbs.join("\n")) }
 
     puts "Even numbers between #{start_range} to #{end_range} saved in #{file}"
   end
