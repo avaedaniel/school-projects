@@ -1,3 +1,5 @@
+# author: Mercey Tang
+
 #mode(data): Finds the mode of a dataset.
 
 # data is a list of numerical values separated by comma

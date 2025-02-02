@@ -1,3 +1,5 @@
+# author: Mercey Tang
+
 #9.is_prime(n): Checks if a given number n is a prime number.
 def is_prime(n)
   return false if n<2

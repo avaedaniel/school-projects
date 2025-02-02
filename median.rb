@@ -1,3 +1,5 @@
+# author: Mercey Tang
+
 # 7. median(data): Calculates the median of a dataset.
 
 # data is a list of numerical values separated by comma

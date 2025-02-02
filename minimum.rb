@@ -1,3 +1,5 @@
+# author: Mercey Tang
+
 #10. minimum(data): Returns the smallest value from a set of numbers.
 # data is a list of numerical values separated by comma
 
