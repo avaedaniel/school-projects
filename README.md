@@ -17,5 +17,11 @@ HOW TO USE CALCULATOR:
     perform basic arithmetic operations within the default 'Basic' calculator page
     perform scientific operation within the 'Scientific' calculator page
     generate lists of numbers and save them to a file within the 'Generators' calculator page
+<<<<<<< HEAD
     to clear all input from the input space, press the 'clear' button.
     to delete the most recent input character from the input space, press the 'delete' button
+=======
+
+    to clear all input from the input space, press the 'clear' button.
+    to delete the most recent input character from the input space, press the 'delete' button
+>>>>>>> 7a8f52b3876c59d036ef8744d9190dd78d14a3a7

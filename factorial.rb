@@ -1,3 +1,4 @@
+# Author: Ava Daniel
 # 5. Factorial: n!
   def factorial(n)
     return 1 if n == 0 || n == 1 # Base case: 0! = 1! = 1

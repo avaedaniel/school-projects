@@ -1,3 +1,4 @@
+# author: Mercey Tang
 # 10. Generate odd numbers within a specified range and save them to a file.
 def generate_odd(start_range, end_range)
   odds=[];

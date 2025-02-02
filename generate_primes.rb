@@ -1,3 +1,5 @@
+# author: Mercey Tang
+
 #8. Generate all prime numbers less than a given number and save them to 
 # a file (primes.txt).
 
