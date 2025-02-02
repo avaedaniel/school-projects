@@ -1,3 +1,6 @@
+#author: Ryan Carmody
+#Calculator GUI for project 2 part 2
+
 #calc_gui.rb
 require 'gtk3'
 require_relative 'cosine'
@@ -65,6 +68,7 @@ class CalculatorGUI
         basic_label.set_markup("<b>Basic Operations</b>")  # Bold text
         basic_box.pack_start(basic_label, expand: false, fill: true, padding: 5)
 
+        # Initialize basic operation buttons
         buttons = [
             ['7', '8', '9', '/'],
             ['4', '5', '6', '*'],
@@ -92,6 +96,7 @@ class CalculatorGUI
         scientific_grid.row_spacing = 5
         scientific_grid.column_spacing = 5
 
+        # Initialize scientific operation buttons
         scientific_buttons = [
             ['√', '∛', 'log(base, a)', 'x^y'],
             ['sin', 'cos', 'tan', '|x|'],
@@ -168,7 +173,7 @@ class CalculatorGUI
     
         gen_box.pack_start(temp_box, expand: false, fill: true, padding: 5)
     
-        # Create other generators...
+
         range_generators.each do |label|
             row_box = Gtk::Box.new(:horizontal, 5)
             create_range_input(row_box, label)
