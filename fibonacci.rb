@@ -7,12 +7,10 @@ def fibonacci(limit)
     while (next_fib = fib_sequence[-1] + fib_sequence[-2]) <= limit
       fib_sequence << next_fib
     end
-    
-    file = 'fibonacci.txt'
 
-    File.open(filename, 'w') do |file|
-      fib_sequence.each { |num| file.puts num }
+    File.open('fibonacci.txt', 'w') do |f|
+      fib_sequence.each { |num| f.puts num }
     end
     
-    puts "Fibonacci numbers up to #{limit} saved in #{filename}"
+    fib_sequence
   end    
