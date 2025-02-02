@@ -1,3 +1,4 @@
+# Author: Ava Daniel
 class ExpressionEvaluator
     def initialize(expression)
       @expression = expression

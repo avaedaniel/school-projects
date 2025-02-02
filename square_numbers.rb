@@ -1,3 +1,4 @@
+# Author: Ava Daniel
 # 4. Generate square numbers within a range and save them to a file
   def square_numbers(start_range, end_range)
     square_numbs = []
