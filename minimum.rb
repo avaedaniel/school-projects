@@ -1,12 +1,10 @@
 #10. minimum(data): Returns the smallest value from a set of numbers.
+# data is a list of numerical values separated by comma
+
 def minimum(data)
-  #return data.min;
   min = data [0]
   data.each do |num|
     min = num if num < min
   end
   min
 end
-
-#data = [20, 10, 30, 40, 6, 2, 1]
-#puts "Minimum: #{minimum(data)}"

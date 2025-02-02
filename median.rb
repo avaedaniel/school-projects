@@ -1,4 +1,6 @@
 # 7. median(data): Calculates the median of a dataset.
+
+# data is a list of numerical values separated by comma
 def median(data)
   sortD = data.sort
   length = sortD.length

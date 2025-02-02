@@ -1,4 +1,5 @@
-#8. Generate all prime numbers less than a given number and save them to a file.
+#8. Generate all prime numbers less than a given number and save them to 
+# a file (primes.txt).
 
 require_relative 'is_prime.rb'
 
