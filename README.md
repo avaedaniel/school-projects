@@ -11,6 +11,7 @@ Ryan
 Yoyi
     Category 1, #1-4
     Category 2, #13-16
+    
 HOW TO USE CALCULATOR:
     type in terminal 'ruby calc_gui.rb' to launch the calulator environment
     perform basic arithmetic operations within the default 'Basic' calculator page
