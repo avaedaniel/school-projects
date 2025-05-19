@@ -1,0 +1,59 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Trips" %>
+
+<div class="trips-container">
+  <div class="trips-header">
+    <h1>Trips</h1>
+    <p>This page shows every trip created on this website</p>
+  </div>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %> 
+  
+  <table class="mytable">
+    <thead>
+      <tr>
+        <th>TRIP ID</th>
+        <th>TRIP NAME</th>
+        <th>START DATE</th>
+        <th>END DATE</th>
+        <th>TIME CREATED</th>
+        <th>LAST UPDATE</th>
+        <th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @trips.present? %>
+        <% @trips.each do |trip| %>
+          <tr>
+            <td><%= trip.id %></td>
+            <td><%= trip.name %></td>
+            <td><%= trip.start_date %></td>
+            <td><%= trip.end_date %></td>
+            <td><%= trip.created_at %></td>
+            <td><%= trip.updated_at %></td>
+            <td class="actions-cell">
+              <%= link_to 'Show', trip, class: "btn-show" %>
+              <%= link_to 'Participants', trip_participants_path(trip), class: "btn-view" %>
+              <%= link_to 'Edit', edit_trip_path(trip.id), class: "btn-edit" %>
+              <%= button_to 'Delete', trip_path(trip.id), method: :delete, class: "btn-delete" %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="7">No trips available</td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7" class="table-footer">End of Trips List</td>
+      </tr>
+    </tfoot>
+  </table>
+  
+  <div class="trips-actions">
+    <%= link_to "Create new trip", new_trip_path, class: "btn-new-trip" %>
+  </div>
+</div>

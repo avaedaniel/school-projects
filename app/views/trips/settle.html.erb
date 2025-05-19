@@ -1,0 +1,79 @@
+<!-- app/views/trips/settle.html.erb -->
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Settlements for #{@trip.name}" %>
+
+<h1>Settlements for <%= @trip.name %></h1>
+
+<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+<div class="actions mt-3">
+  <%= link_to "Back to Trip", trip_path(@trip), class: "btn btn-secondary" %>
+</div>
+
+<h2>Participant Balances</h2>
+<% if @initial_balances.present? %>
+  <table class="mytable">
+    <thead>
+      <tr>
+        <th>Participant</th>
+        <th>Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @initial_balances.each do |participant, balance| %>
+        <tr>
+          <td><%= participant.name %></td>
+          <td>
+            <% if balance > 0 %>
+              Owes <%= number_to_currency(balance) %>
+            <% elsif balance < 0 %>
+              Is owed <%= number_to_currency(-balance) %>
+            <% else %>
+              Balanced ($<%= sprintf("%.2f", balance) %>)
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2">End of Participant Balances</td>
+      </tr>
+    </tfoot>
+  </table>
+<% else %>
+  <p>No participants found for this trip.</p>
+<% end %>
+
+<h2>Suggested Transactions</h2>
+<% if @transactions.present? && @transactions.any? %>
+  <table class="mytable">
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Amount</th>
+        <th>Expense</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @transactions.each do |transaction| %>
+        <tr>
+          <td><%= transaction[:from].name %></td>
+          <td><%= transaction[:to].name %></td>
+          <td><%= number_to_currency(transaction[:amount]) %></td>
+          <td><%= transaction[:expense] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">End of Suggested Transactions</td>
+      </tr>
+    </tfoot>
+  </table>
+<% else %>
+  <p>No transactions needed to settle balances.</p>
+<% end %>
+
