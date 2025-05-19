@@ -1,0 +1,26 @@
+---
+layout: layout2
+title: Teaching
+---
+
+<body class="teaching-page">
+
+  <h2>My Teaching</h2>
+  <p>&nbsp;</p>
+  <a href="https://cse.osu.edu/courses">Ohio State CSE Course Catalog</a>
+  <p>&nbsp;</p>
+  
+
+  <% data.teaching.each do |semester, courses| %>
+    <h3><%= semester %></h3>
+    <ul>
+      <% courses.each do |course| %>
+        <li>
+          <%= course.name %>
+          <p><%= course.description %></p> 
+          <p>&nbsp;</p>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</body>
