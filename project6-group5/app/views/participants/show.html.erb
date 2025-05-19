@@ -1,0 +1,25 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Participant Details</h1>
+
+<div class="participant-details">
+  <p>
+    <strong>Name:</strong>
+    <%= @participant.name %>
+  </p>
+
+  <p>
+    <strong>User:</strong>
+    <%= @participant.user&.email || "No associated user" %>
+  </p>
+
+  <p>
+    <strong>Trip:</strong>
+    <%= @trip.name %>
+  </p>
+</div>
+
+<div class="actions">
+  <%= link_to "Edit", edit_trip_participant_path(@trip, @participant) %> |
+  <%= link_to "Back to Participants", trip_participants_path(@trip) %>
+</div>

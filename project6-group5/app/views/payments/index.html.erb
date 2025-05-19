@@ -1,0 +1,51 @@
+<h1>Payments for <%= @trip.name %></h1>
+
+<p style="color: green"><%= notice %></p>
+
+<div class="payments-header">
+  <div class="actions">
+    <%= link_to "New Payment", new_trip_payment_path(@trip), class: "btn btn-primary" %>
+    <%= link_to "Back to Trip", trip_path(@trip), class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<% if @payments.any? %>
+  <div class="payments-list">
+    <table  class="mytable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Amount</th>
+          <th>Description</th>
+          <th colspan ="3" style ="text-align: center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @payments.each do |payment| %>
+          <tr>
+            <td><%= payment.date %></td>
+            <td><%= payment.user.name %></td>
+            <td><%= payment.recipient.name %></td>
+            <td><%= number_to_currency(payment.amount, unit: payment.currency) %></td>
+            <td><%= payment.description %></td>
+            <td><%= link_to "Show", trip_payment_path(@trip, payment) %></td>
+            <td><%= link_to "Edit", edit_trip_payment_path(@trip, payment) %></td>
+            <td><%= button_to "Delete", trip_payment_path(@trip, payment), method: :delete, 
+                  data: { confirm: "Are you sure you want to delete this payment?" },
+                  class: "btn btn-sm btn-danger" %></td>
+            
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p>No payments recorded yet.</p>
+<% end %>
+
+<div class="payments-summary">
+  <h3>Summary</h3>
+  <p>Total payments: <%= number_to_currency(@payments.sum(:amount)) %></p>
+</div>

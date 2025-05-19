@@ -1,0 +1,38 @@
+
+<%provide(:title, 'Trip Information')%>
+<h1>Trip Information</h1>
+<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %> 
+<div class ="user-info-container">
+
+ <p>
+    <strong>Name:</strong>
+    <%= trip.name %>
+  </p>
+
+  <p>
+    <strong>Start date:</strong>
+    <%= trip.start_date %>
+  </p>
+
+  <p>
+    <strong>End date:</strong>
+    <%= trip.end_date %>
+  </p>
+
+  <p>
+    <strong>Trip Owner:</strong>
+    <%= trip.user.name if trip.user %>
+  </p>
+  
+  <p>
+    <strong>Participants:</strong>
+  </p>
+
+  <ul>
+    <% Trip.find(trip.id).participants.each do |participant| %>
+      <li><%= participant.name %></li>
+    <% end %>
+  </ul>
+
+</div>
+
