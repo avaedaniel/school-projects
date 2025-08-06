@@ -1,0 +1,15 @@
+<!-- app/views/payments/new.html.erb -->
+<h1>New Payment for <%= @trip.name %></h1>
+
+<% if @trip.participants.any? %>
+  <%= render "form", payment: @payment %>
+<% else %>
+  <p class="alert alert-warning">
+    There are no participants in this trip. Please add participants before creating a payment.
+    <%= link_to "Add Participants", new_trip_participant_path(@trip), class: "btn btn-primary" %>
+  </p>
+<% end %>
+
+<div class="actions mt-3">
+  <%= link_to "Back to Payments", trip_payments_path(@trip), class: "btn btn-secondary" %>
+</div>

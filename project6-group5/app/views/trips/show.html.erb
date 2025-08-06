@@ -1,0 +1,92 @@
+<div class="trip-container">
+
+  <div class="trip-header">
+    <h1><%= @trip.name %></h1>
+    <p style="color: green"><%= notice %></p>
+  </div>
+
+  <div class="trip-details">
+    <%= render @trip %>
+  </div>
+
+   <div class="action-cards">
+    <div class="action-card">
+      <h3>Trip Management</h3>
+      <div class="action-buttons">
+        <%= link_to "Edit Trip", edit_trip_path(@trip), class: "btn-edit" %>
+        <%= link_to "Manage Participants", trip_participants_path(@trip), class: "btn-view" %>
+        <%= button_to "Delete Trip", @trip, method: :delete, class: "btn-delete" %>
+      </div>
+    </div>
+
+  <% if @trip.participants.any? %>
+    <div class="trip-summary mt-4">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card">
+        <h3>Finances</h3>
+        <div class="action-buttons">
+          <%= link_to "Calculate Settlements", settle_trip_path(@trip), class: "btn-calculate" %>
+          <%= link_to "View Expenses", trip_expenses_path(@trip), class: "btn-show" %>
+          <%= link_to "Manage Payments", trip_payments_path(@trip), class: "btn-payment" %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+    <% if @trip.participants.any? %>
+      <div class="summary-section">
+        <div class="summary-cards">
+          <div class="summary-card">
+            <h3>Participants</h3>
+            <ul class="participant-list">
+              <% @trip.participants.each do |participant| %>
+                <li><%= participant.name %></li>
+              <% end %>
+            </ul>
+            <div class="card-action">
+              <%= link_to "Manage Participants", trip_participants_path(@trip), class: "btn-view" %>
+            </div>
+          </div>
+          
+          <div class="summary-card">
+            <h3>Financial Summary</h3>
+            <% if @trip.expenses.any? %>
+              <div class="financial-data">
+                <div class="financial-item">
+                  <span class="label">Total Expenses:</span>
+                  <span class="value"><%= number_to_currency(@trip.expenses.sum(:amount)) %></span>
+                </div>
+                <div class="financial-item">
+                  <span class="label">Total Payments:</span>
+                  <span class="value"><%= number_to_currency(@trip.payments.sum(:amount)) %></span>
+                </div>
+                <div class="financial-item">
+                  <span class="label">Number of Expenses:</span>
+                  <span class="value"><%= @trip.expenses.count %></span>
+                </div>
+                <div class="financial-item">
+                  <span class="label">Number of Payments:</span>
+                  <span class="value"><%= @trip.payments.count %></span>
+                </div>
+              </div>
+            <% else %>
+              <p>No expenses recorded yet.</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+  <div class="navigation-links">
+    <%= link_to "Back to Trips", trips_path, class: "btn-back" %>
+    <%= link_to "Create New Trip", new_trip_path, class: "btn-new-trip" %>
+  </div>
+</div>

@@ -1,0 +1,263 @@
+[
+  {
+    "Course id": 149285,
+    "semester": "AU",
+    "year": "23",
+    "Department": "ARTSSCI",
+    "Class Number": "1100.10",
+    "Class Name": "ASC College Survey",
+    "Section Number": "26749"
+  },
+  {
+    "Course id": 151944,
+    "semester": "AU",
+    "year": "23",
+    "Department": "CSE",
+    "Class Number": "2221",
+    "Class Name": "SW 1: Components",
+    "Section Number": "7274"
+  },
+  {
+    "Course id": 149933,
+    "semester": "AU",
+    "year": "23",
+    "Department": "PHYSICS",
+    "Class Number": "1250",
+    "Class Name": "Mech,Energy,Thermo",
+    "Section Number": "22976"
+  },
+  {
+    "Course id": 150097,
+    "semester": "AU",
+    "year": "23",
+    "Department": "STAT",
+    "Class Number": "3470.01",
+    "Class Name": "Intro Stat Eng",
+    "Section Number": "30324"
+  },
+  {
+    "Course id": 152134,
+    "semester": "AU",
+    "year": "23",
+    "Department": "WGSST",
+    "Class Number": "2282",
+    "Class Name": "Intro Queer Study",
+    "Section Number": "30704"
+  },
+  {
+    "Course id": 173981,
+    "semester": "AU",
+    "year": "24",
+    "Department": "CSE",
+    "Class Number": "2231",
+    "Class Name": "SW 2: Dev & Dsgn",
+    "Section Number": "6940"
+  },
+  {
+    "Course id": 174167,
+    "semester": "AU",
+    "year": "24",
+    "Department": "CSE",
+    "Class Number": "2331",
+    "Class Name": "Fndns 2: DS & Alg",
+    "Section Number": "35717"
+  },
+  {
+    "Course id": 164544,
+    "semester": "AU",
+    "year": "24",
+    "Department": "CSE",
+    "Class Number": "2421",
+    "Class Name": "Sys 1: Comput Org",
+    "Section Number": "7255"
+  },
+  {
+    "Course id": 173620,
+    "semester": "AU",
+    "year": "24",
+    "Department": "CSE",
+    "Class Number": "5241",
+    "Class Name": "Intr Database Sys",
+    "Section Number": "7075"
+  },
+  {
+    "Course id": 170523,
+    "semester": "AU",
+    "year": "24",
+    "Department": "ECE",
+    "Class Number": "2020",
+    "Class Name": "Anlg Sys & Circuit",
+    "Section Number": "9141"
+  },
+  {
+    "Course id": 171951,
+    "semester": "AU",
+    "year": "24",
+    "Department": "ECE",
+    "Class Number": "2020",
+    "Class Name": "Anlg Sys & Circuit",
+    "Section Number": "N/A"
+  },
+  {
+    "Course id": 168475,
+    "semester": "AU",
+    "year": "24",
+    "Department": "GENED",
+    "Class Number": "1201",
+    "Class Name": "GE Launch Seminar",
+    "Section Number": "31399"
+  },
+  {
+    "Course id": 173198,
+    "semester": "AU",
+    "year": "24",
+    "Department": "PHILOS",
+    "Class Number": "2338",
+    "Class Name": "Computing Ethics",
+    "Section Number": "30234"
+  },
+  {
+    "Course id": 161888,
+    "semester": "SP",
+    "year": "24",
+    "Department": "CSE",
+    "Class Number": "2231",
+    "Class Name": "SW 2: Dev & Dsgn",
+    "Section Number": "37768"
+  },
+  {
+    "Course id": 155902,
+    "semester": "SP",
+    "year": "24",
+    "Department": "CSE",
+    "Class Number": "2321",
+    "Class Name": "Fndns 1: Discr Str",
+    "Section Number": "7448"
+  },
+  {
+    "Course id": 160362,
+    "semester": "SP",
+    "year": "24",
+    "Department": "ECE",
+    "Class Number": "2060",
+    "Class Name": "Int Digital Logic",
+    "Section Number": "9488"
+  },
+  {
+    "Course id": 161475,
+    "semester": "SP",
+    "year": "24",
+    "Department": "ECE",
+    "Class Number": "2060",
+    "Class Name": "Int Digital Logic",
+    "Section Number": "N/A"
+  },
+  {
+    "Course id": 160458,
+    "semester": "SP",
+    "year": "24",
+    "Department": "ENGR",
+    "Class Number": "1181.01",
+    "Class Name": "Fund Engr 1",
+    "Section Number": "8187"
+  },
+  {
+    "Course id": 161936,
+    "semester": "SP",
+    "year": "24",
+    "Department": "MATH",
+    "Class Number": "3345",
+    "Class Name": "Fdn Higher Math",
+    "Section Number": "26836"
+  },
+  {
+    "Course id": 160994,
+    "semester": "SP",
+    "year": "24",
+    "Department": "WGSST",
+    "Class Number": "2215",
+    "Class Name": "Women Writers",
+    "Section Number": "20697"
+  },
+  {
+    "Course id": 179258,
+    "semester": "SP",
+    "year": "25",
+    "Department": "CHINESE",
+    "Class Number": "4301",
+    "Class Name": "Cantonese Level 1",
+    "Section Number": "28544"
+  },
+  {
+    "Course id": 183603,
+    "semester": "SP",
+    "year": "25",
+    "Department": "CSE",
+    "Class Number": "2231",
+    "Class Name": "SW 2: Dev & Dsgn",
+    "Section Number": "12793"
+  },
+  {
+    "Course id": 178805,
+    "semester": "SP",
+    "year": "25",
+    "Department": "CSE",
+    "Class Number": "2431",
+    "Class Name": "Sys 2: Oper Sys",
+    "Section Number": "6814"
+  },
+  {
+    "Course id": 181364,
+    "semester": "SP",
+    "year": "25",
+    "Department": "CSE",
+    "Class Number": "3901",
+    "Class Name": "Proj: Web Apps",
+    "Section Number": "36121"
+  },
+  {
+    "Course id": 183894,
+    "semester": "SP",
+    "year": "25",
+    "Department": "CSE",
+    "Class Number": "4252",
+    "Class Name": "C++ Programming",
+    "Section Number": "6847"
+  },
+  {
+    "Course id": 182015,
+    "semester": "SP",
+    "year": "25",
+    "Department": "CSE",
+    "Class Number": "5361",
+    "Class Name": "Numerical Methods",
+    "Section Number": "36189"
+  },
+  {
+    "Course id": 183075,
+    "semester": "SP",
+    "year": "25",
+    "Department": "MATH",
+    "Class Number": "3607",
+    "Class Name": "Begin Sci Comp",
+    "Section Number": "26334"
+  },
+  {
+    "Course id": 179699,
+    "semester": "SP",
+    "year": "25",
+    "Department": "MICRBIO",
+    "Class Number": "3704",
+    "Class Name": "HIV Microbio Hist",
+    "Section Number": "25186"
+  },
+  {
+    "Course id": 166420,
+    "semester": "SU",
+    "year": "24",
+    "Department": "MATH",
+    "Class Number": "2568",
+    "Class Name": "Linear Algebra",
+    "Section Number": "14460"
+  }
+]

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="./script2.js"></script>
+</head>
+<body>
+
+    <div class="calculator">
+        <!-- Input field for display -->
+        <input type="text" class="display" id="display" disabled>
+
+        <div class="buttons">
+            <!-- Basic Operations -->
+            <div class="panel" id="basic">
+                <button onclick="append('7')">7</button> <button onclick="append('8')">8</button> <button onclick="append('9')">9</button> <button onclick="appendOperation('/')">/</button>
+                <button onclick="append('4')">4</button> <button onclick="append('5')">5</button> <button onclick="append('6')">6</button> <button onclick="appendOperation('*')">*</button>
+                <button onclick="append('1')">1</button> <button onclick="append('2')">2</button> <button onclick="append('3')">3</button> <button onclick="appendOperation('-')">-</button>
+                <button onclick="append('0')">0</button> <button onclick="append('.')">.</button> <button onclick="calculate()">=</button> <button onclick="appendOperation('+')">+</button>
+                <button onclick="append('(')">(</button> <button onclick="append(')')">)</button> <button onclick="append(',')">,</button> <button onclick="clearDisplay()">C</button>
+            </div>
+
+            <!-- Category 1 (Math Functions) -->
+            <div class="panel" id="category1">
+                <button onclick="option('sqrt', 'n')">√</button>
+                <button onclick="option('cbrt', 'n')">∛</button>
+                <button onclick="option('log', 'y')">log</button>
+                <button onclick="option('sin', 'n')">sin</button>
+                <button onclick="option('cos', 'n')">cos</button>
+                <button onclick="option('tan', 'n')">tan</button>
+                <button onclick="option('deciToBi', 'n')">BIN</button>
+                <button onclick="option('deciToOct', 'n')">OCT</button>
+                <button onclick="option('deciToHex', 'n')">HEX</button>
+            </div>
+
+            <!-- Category 2 (Custom Functions) -->
+            <div class="panel" id="category2">
+                <button onclick="option('exponent', 'y')">^</button>
+                <button onclick="option('generateEven', 'y')">Generate Even</button>
+                <button onclick="option('abs', 'n')">|n|</button>
+                <button onclick="option('generateSquare', 'y')">Generate Square</button>
+                <button onclick="option('factorial', 'n')">n!</button>
+                <button onclick="option('percentage', 'y')">Percent</button>
+                <button onclick="option('median', 'y')">Median</button>
+                <button onclick="option('generatePrime', 'n')">Generate Prime</button>
+                <button onclick="option('isPrime', 'n')">Prime?</button>
+                <button onclick="option('min', 'y')">Min</button>
+                <button onclick="option('generateOdd', 'y')">Generate Odd</button>
+                <button onclick="option('mode', 'y')">Mode</button>
+                <button onclick="option('mean', 'y')">Mean</button>
+                <button onclick="option('max', 'y')">Max</button>
+                <button onclick="option('generateFibonacci', 'n')">Generate Fibonacci</button>
+                <button onclick="option('FtoC', 'n')">F→C</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

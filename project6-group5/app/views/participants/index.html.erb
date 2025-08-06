@@ -1,0 +1,48 @@
+<div class="participants-container">
+  <div class="participants-header">
+    <h1>Participants for <%= @trip.name %></h1>
+    <p style="color: green"><%= notice %></p>
+  </div>
+
+  <table class="mytable">
+    <thead>
+      <tr>
+        <th>NAME</th>
+        <th>USER</th>
+        <th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @participants.any? %>
+        <% @participants.each do |participant| %>
+          <tr>
+            <td><%= participant.name %></td>
+            <td><%= participant.user&.email || "No associated user" %></td>
+            <td class="actions-cell">
+              <%= link_to "Show", trip_participant_path(@trip, participant), class: "btn-show" %>
+              <%= link_to "Edit", edit_trip_participant_path(@trip, participant), class: "btn-edit" %>
+              <%= button_to "Remove", trip_participant_path(@trip, participant), 
+                    method: :delete, 
+                    class: "btn-delete",
+                    data: { turbo_confirm: "Are you sure you want to remove this participant?" } %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="3">No participants available</td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" class="table-footer">End of Participants List</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="participants-actions">
+    <%= link_to "Add Participant", new_trip_participant_path(@trip), class: "btn-new-participant" %>
+    <%= link_to "Back to Trip", trip_path(@trip), class: "btn-back" %>
+  </div>
+</div>

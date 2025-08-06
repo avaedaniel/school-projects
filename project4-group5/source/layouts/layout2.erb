@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= current_page.data.title || "My Site" %></title>
+  <link rel="stylesheet" href="<%= url_for('stylesheets/site.css.scss') %>">
+  <link rel="stylesheet" href="<%= asset_path(:css, 'site.css') %>">
+</head>
+<body>
+
+  <%= partial "partials/header" %>
+
+  <main class="content">
+    <%= yield %>
+  </main>
+
+  <%= partial "partials/footer" %>
+
+</body>
+</html>
