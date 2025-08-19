@@ -35,15 +35,15 @@
 * Work Distribution
 
     Yoyi
-        - initial set up of the project
-        - index pages
-        - small fixes here and there
+        - Initial set up of the project
+        - Index pages
+        - Small fixes here and there
 
     Ava
         - Header
         - Footer
         - Added edit and delete button to all index page
-        - settlement
+        - Settlements page
 
     Ryan
         - Debt calculation
@@ -51,4 +51,4 @@
 
     Jia-Hui
         - Formated layout of user table, trip table, user information and trip information 
-        - fixed expenses section
+        - Fixed expenses section
