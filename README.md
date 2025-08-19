@@ -5,8 +5,8 @@ This repository contains group projects I worked on during my time at OSU as par
 
 - **brutus-buckeye4** Authored entirely by Ava Daniel
 - **brutus-buckeye6** Authored entirely by Ava Daniel
-- **project2-group5**: Category 2 #1-6, Category 3 #1
-- **project3-group5**: Implemented arithmetic expression evaluation with operator precedence and parentheses support in script2.js.
-- **project4-group5**:
-- **project5-group5**:
-- **project6-group5**: Header, Footer, Added edit and delete buttons index page, Calculations behind Settlements page
+- **project2-group5**: Team Collaboration
+- **project3-group5**: Team Collaboration
+- **project4-group5**: Team Collaboration
+- **project5-group5**: Team Collaboration
+- **project6-group5**: Team Collaboration
